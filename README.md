@@ -21,11 +21,15 @@ examples:
 
 acronyms for:
 
-year: y, yr, years
-day: d, dy, days
-hour: h, hr, hours
-minute: m, min, minutes
-second: s, sec, seconds
+year : y, yr, years
+
+day : d, dy, days
+
+hour : h, hr, hours
+
+minute : m, min, minutes
+
+second : s, sec, seconds
 
 ### note
 
