@@ -1,4 +1,4 @@
-use std::{env, fmt};
+use std::{env, fmt, process};
 
 // TODO: go to time impl block to find todo
 #[derive(Default, Debug)]
@@ -77,7 +77,7 @@ impl Time {
     // TODO: impl fn to add time structs or overload + for time struct
 }
 
-impl std::fmt::Display for Time {
+impl fmt::Display for Time {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let mut time = String::new();
         if let Some(v) = self.years {
@@ -148,9 +148,20 @@ impl Unit {
 }
 
 fn main() {
+    let err_msg = || {
+        let program_name = env::args().nth(0).unwrap();
+        eprint!(
+            "maybe you forgot to provide an input or provided an invalid input\n\n USAGE: {0} `your input`\n\n Examples:\n\t{0} 1200s\n\t{0} 547min\n\t{0} 2300yr",
+            program_name
+        );
+        process::exit(1);
+    };
     match env::args().nth(1) {
         Some(t) => {
             let (unit, time) = Unit::parse_unit(&t);
+            if let Unit::Invalid = unit {
+                err_msg();
+            }
             let normalized_time = Time::new();
             println!(
                 "{} is same as {}\n\nAn year is considered as 365 days in calculation",
@@ -159,10 +170,7 @@ fn main() {
             );
         }
         None => {
-            eprint!(
-                "require a input\n USAGE: {} `your input`",
-                env::args().nth(0).unwrap()
-            );
+            err_msg();
         }
     }
 }
